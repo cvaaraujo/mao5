@@ -1,0 +1,136 @@
+Configurando rapidamente repositórios Git e Github pelo VS Code // Mão no Código #5
+
+Como a gente consegue criar repositórios no VS Code diretamente no Github. Primeiramente vamos criar um Repositório Local, e depois configurar ele lá dentro do Github. E dessa forma a gente consegue trabalhar muito mais organizado de uma forma mais segura, porque voce vai ter certeza, de que todas as suas alterações vão estar sendo armazenada em histórico, todas as vantagens que traz para um bom programador. 
+
+Github será usado porque é o mais conhecido, particularmente usamos o Bitbuckets, mas o Github é mais conhecido, portanto vamos usar ele nesse vídeo. 
+
+Vamos criar um novo Projeto 
+
+composer -> gerenciador de dependências do PHP, é possível com ele criar Projetos e gerenciar as dependências dos nossos Projetos, automaticamente com ele, é equivalente ao NPM. 
+
+Vamos instalar o codeigniter, um framework do PHP. 
+
+$ composer create-project bcit-ci/codeigniter mao5 --prefer dist 
+
+bcit-ci -> endereço do repositório no Github 
+
+--prefer dist -> vai baixar a última versão 
+
+mao5 -> qual pasta, qual nome do meu projeto 
+
+Vamos acessar a pasta mao5:
+
+$ cd mao5 
+
+$ ls
+
+Vamos observar a presença do codeigniter, depois vamos acessar o VS Code. 
+
+$ code . 
+
+Acessa VS Code pelo atalho "code ."
+
+Vamos criar um Repositório Git. 
+
+O codeigniter já vem com o arquivo .gitignore, que um arquivo que lista os arquivos ou as pastas em que o Repositorio vai ignorar e não vai subir isso para o Repositorio. 
+
+Arquivo em cache, logs, não tem necessidade de usar. 
+
+A maioria dos framework que vc vai baixar já tras o .gitignore, o básico para o framework configurar.
+
+No próprio VS Code já existe um controle de versionamento. Quando clicamos no icone do lado direito chamado "Source Control", ele já abre o gerenciamento dele, de repositório que estiver associado ao seu Projeto. Como não tem nada, ele simplesmente não mostra nada. 
+
+Vamos inicializar o nosso Repositorio por aqui, seria equivalente ao chegar no git bash e digitar:
+
+$ git init 
+
+Vamos fazer no VS Code, o terminal ajuda muito porém tem coisa que na IDE facilita. 
+
+Vamos clicar no ícone com sinal de + (Initialize Repository). 
+
+Já foi criado o meu repositório. Vamos conferir no terminal do git bash:
+
+$ ls -al 
+
+Podemos perceber a presença do arquivo ".git"
+
+Então, já temos um repositório local, com isso consigo trabalhar se quiser. Por enquanto não tem nenhuma associação com o Github, mas já consigo trabalhar. 
+
+Primeira coisa que preciso fazer é adicionar todos esses arquivos que aparecem no painel do lado direito do VS Code dentro do meu stage. 
+
+Temos uma mensagem na parte inferior que quando ele carrega o repositório e ja podemos mandar para o stage, mas vamos fazer passo a passo. 
+
+Vamos clicar no icone com sinal de + (Stage All Changes). Vai adicionar, leva um tempo. 
+
+Pronto, podemos observar que mudou o status "STAGED CHANGES", 
+
+Como será o processo.
+
+Cada vez que voce vai fazendo suas modificações e deseja criar um "commit" (todas as modificações que voce fez em vários arquivos vão para o repositório, a gente cria um commit usando essa interface mesmo. 
+
+Temos uma caixa de texto logo acima, é nessa caixa que vamos colocar o nome do nosso "commit", vamos colocar "First Commit" e depois usamos o CTRL + ENTER. Será feito o nosso primeiro commit dentro do repositório, 
+
+No VS Code não temos extensões para visualizar históricos, o git lens ajuda nisso, 
+
+No terminal do git bash vamos digitar:
+
+$ git shortlog 
+
+Será exibido informações sobre um commit presente, o "First Commit". 
+
+Com isso podemos confirmar que todos os arquivos foram para o meu repositório. 
+
+Agora podemos associar esse repositório com o nosso repositório do Github. 
+
+Precisamos associar a nossa chave SSH que a gente tem na máquina dentro do Github, dessa forma toda vez que for criar um Repositório ele faz essa autenticação, batendo as duas chaves, 
+
+No Github, clicamos na foto do perfil, depois "Settings", e no painel da direita clicamos em "SSH and GPG Keys", e depois clicamos em "New SSH Key", 
+
+Quando instalamos o Git ele já cria uma chave pra gente. 
+
+Vamos pesquisar no Windows Explorer 
+
+c:\Users\peo_cambrosio\
+
+Podemos notar que não existe a pasta .ssh com as chaves. Temos que gerá-las.
+
+Existem duas formas de se autenticar no Github quando voce faz um push: via HTTP e via SSH. Via HTTP voce fornece suas credenciais, da mesma forma que as forneceria ao fazer login no site do Github; e via SSH, na qual voce usa um par de chaves - sendo uma pública e uma privada - para se autenticar sem usuario e senha.
+
+Primeiramente, devemos gerar um novo par de chaves usando o comando ssh-keygen:
+
+ssh-keygen -t rsa -b 4096 -C "vinny.engenharia@gmail.com" 
+
+O comando irá perguntar em qual arquivo voce deseja salvar sua chave. Se voce não tem nenhuma chave configurada, não tem problema usar o nome padrão (id_rsa). Em seguida, ele perguntará se voce deseja usar uma senha que será perguntada toda vez que voce fizer uma autenticação baseada nas suas chaves. Recomendo configurar uma senha se voce compartilha seu computador com outras pessoas. 
+
+Enter passphrase (empty for no passphrase): [digite sua senha]
+Enter same passphrase again: [digite sua senha novamente]
+
+Finalmente, sua chave será salva na pasta ~/.ssh:
+
+Feito isso, vamos colocar as chaves no GitHub. Logue em sua conta, vá para as configurações de Chaves SSH e clique no botão Add SSH key. Lá você terá um campo de título, opcional, e o campo da chave, no qual você deverá colar a chave pública (e não a privada) que acabamos de gerar. Para facilitar o processo, copie a chave pública para a área de transferência:
+
+Git bash on Windows:
+
+cat ~/.ssh/id_rsa.pub > /dev/clipboard
+
+Depois da sua chave ter sido configurada no GitHub, já é possível dar um git push normalmente.
+
+Agora, vamos criar Repositório chamado mao5. Depois de configurado agora preciso configurar no meu repositório local que eu tenho um repositório remoto e que toda vez que fizer um push ele vai mandar as minhas notificações para o meu repositorio remoto. Fazemos isso com o seguinte comando:
+
+$ git remote add origin https://github.com/cvaaraujo/mao5.git
+
+No VS Code clicamos no icone "Source COntrol" no painel a esquerda, e depois clicamos no icone "...", no menu de opções que aparece podemos observar a opção "Push to..." 
+
+Realizando uma modificação. 
+
+Vamos modificar qualquer informação no arquivo so para teste. 
+
+No Source COntrol ele identificou que teve alteração de 1 arquivo, clicando no arquivo que foi modificado é exibido uma diferença. 
+
+Vamos clicar no sinal de + para jogar essa modificação para o stage, agora vamos criar um novo commit descrevendo uma mensagem "Composer Autoload Setup" e depois CTRL + ENTER. 
+
+Essa modificação ainda não foi para o Github, podemos conferir com o comando:
+
+$ git shortlog 
+
+Agora para enviar para o repositorio remoto a alteração vamos ate icone "..." e clicamos em Push. 
